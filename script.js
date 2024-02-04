@@ -23,6 +23,7 @@ function add(num1, num2){
     operator = '';
     return ans;
 }
+
 function subtract(num1, num2){
     operator = '';
     return parseFloat(num1) - parseFloat(num2);
@@ -119,22 +120,20 @@ operators.forEach(oper=>{
         }
         else{
             num1 = operate(num1, num2, operator);
-            num1 = Number.isInteger(num1) ? num1 : num1.toFixed(3);
+            num1 = Number.isInteger(num1) ? num1 : num1.toFixed(4);
             operator = oper.textContent;
             displayText = `${num1} ${operator} `;
             display.innerHTML = displayText;
             num2 = 0;
+            decimal = 0;
         }
     });  
 });
 
 equals.addEventListener('click', function(){
     flag = 0;
-    console.log(num1);
-    console.log(num2);
     if(operator!=''){
         num1 = operate(num1, num2, operator);
-        console.log(num1);
     }
     num1 = Number.isInteger(num1) ? num1 : num1.toFixed(4);
     decimal = Number.isInteger(num1) ? 0 : 4;
@@ -156,7 +155,8 @@ clearAll.addEventListener('click', function(){
     decimal = 0;
 });
 
-del.addEventListener('click', function(){
+//function to delete the last number(same as backspace)
+function deleteIt(){
     if(flag == 0){
         if(decimal == 0){
             num1 = (num1 - num1 % 10) / 10;
@@ -189,8 +189,6 @@ del.addEventListener('click', function(){
             num1 = parseInt(num1);
             decimal--;
         }
-        console.log(num1);
-        console.log(decimal);
     }
     else{
         let check1 = displayText[displayText.length - 2];//to check if the last char is operator
@@ -222,7 +220,6 @@ del.addEventListener('click', function(){
         }
         //for deletion of decimal point
         else{
-            console.log('here');
             displayText = displayText.substring(0, displayText.length - 1);
             display.innerHTML = displayText;
             num2 = parseInt(num1);
@@ -230,29 +227,54 @@ del.addEventListener('click', function(){
             if(isNaN(check2)){
                 checkIfNum2Entered = 0;
             }
+            if(isNaN(check1)){
+                num1 = Number.isInteger(num1) ? num1 : num1.toFixed(4);
+            }
         }
-        console.log(num2);
-        console.log(decimal);
     }
-});
+}
+
+del.addEventListener('click', deleteIt);
 
 
 
 
-//Event listener for keyboard
+//****Event listener for keyboard****
 document.addEventListener('keydown', function (event) {
     const key = event.key;
-    if(!isNaN(key)){
+    if(!isNaN(key) || key == '.'){
         let num = key;
-        if(flag == 0){
-            num1 = (num1*10) + parseFloat(num);
+        if(num == '.' && decimal == 0 || num != '.'){
+            displayText = (displayText!=0) ? displayText + num : num;
+            display.innerHTML = displayText;
+        }
+        if(num == '.'){
+            if(decimal == 0){
+                decimal++;
+            }
+        }
+        else if(decimal > 0){
+            if(flag == 0){
+                num = num/(10**decimal);
+                decimal++;
+                num1 = parseFloat(num1) + parseFloat(num);
+            }
+            else{
+                num = num/(10**decimal);
+                decimal++;
+                num2 = parseFloat(num2) + parseFloat(num);
+                checkIfNum2Entered = 1;
+            }
         }
         else{
-            num2 = (num2*10) + parseFloat(num);
-            checkIfNum2Entered = 1;
+            if(flag == 0){
+                num1 = (num1*10) + parseFloat(num);
+            }
+            else{
+                num2 = (num2*10) + parseFloat(num);
+                checkIfNum2Entered = 1;
+            }
         }
-        displayText = (displayText!=0) ? displayText + num : num;
-        display.innerHTML = displayText;
     }
     if(key == '+' || key == '-' || key == '*' || key == '/'){
         if(flag == 0){
@@ -260,14 +282,16 @@ document.addEventListener('keydown', function (event) {
             displayText += ` ${operator} `;
             display.innerHTML = displayText;
             flag = 1;
+            decimal = 0;
         }
         else{
             num1 = operate(num1, num2, operator);
-            num1 = Number.isInteger(num1) ? num1 : num1.toFixed(3);
+            num1 = Number.isInteger(num1) ? num1 : num1.toFixed(4);
             operator = key;
             displayText = `${num1} ${operator} `;
             display.innerHTML = displayText;
             num2 = 0;
+            decimal = 0;
         }
     }
     if(key == '=' || key == 'Enter'){
@@ -275,9 +299,11 @@ document.addEventListener('keydown', function (event) {
         if(operator!=''){
             num1 = operate(num1, num2, operator);
         }
-        num1 = Number.isInteger(num1) ? num1 : num1.toFixed(3);
+        num1 = Number.isInteger(num1) ? num1 : num1.toFixed(4);
+        decimal = Number.isInteger(num1) ? 0 : 4;
         displayText = `${num1}`;
         display.innerHTML = displayText;
+        checkIfNum2Entered = 0;
         num2 = 0;
     }
     if(key == 'Delete'){
@@ -288,40 +314,9 @@ document.addEventListener('keydown', function (event) {
         display.innerHTML = displayText;
         flag = 0;
         checkIfNum2Entered = 0;
+        decimal = 0;
     }
     if(key == 'Backspace'){
-        if(flag == 0){
-            num1 = (num1 - num1 % 10) / 10;
-            displayText = displayText.substring(0, displayText.length - 1);
-            display.innerHTML = displayText;
-            if(num1 == 0){
-                num1 = 0;
-                num2 = 0;
-                flag = 0;
-                checkIfNum2Entered = 0;
-                ans = 0;
-                operator = '';
-                displayText = "0";
-                display.innerHTML = displayText;
-            }
-        }
-        else{
-            let check1 = displayText[displayText.length - 2];//to check if the last char is operator
-            let check2 = displayText[displayText.length - 3];//to check if 2nd last operator is operator, or only one dig num left in num2
-            if(!isNaN(check1)){
-                num2 = (num2 - num2 % 10) / 10;
-                displayText = displayText.substring(0, displayText.length - 1);
-                display.innerHTML = displayText;
-                if(isNaN(check2)){
-                    checkIfNum2Entered = 0;
-                }
-            }
-            else{
-                flag = 0;
-                operator = '';
-                displayText = displayText.substring(0, displayText.length - 3);
-                display.innerHTML = displayText;
-            }
-        }
+        deleteIt();
     }
 });

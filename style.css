@@ -3,54 +3,90 @@
     padding: 0;
 }
 
+body{
+    box-sizing: border-box;
+    border: 5px solid yellow;
+}
 
 .display{
-    background-color: rgb(216, 215, 215);
-    height: 20vh;
-    width: 100vw;
-    border: 5px solid brown;
+    background-color: black;
+    color: white;
+    height: calc(30vh - 5px);
+    width: calc(100vw - 10px);
     box-sizing: border-box;
     padding: 10px;
     display: flex;
     justify-content: end;
     align-items: center;
-    font-size: 10vh;
+    font-size: 8vh;
+    box-sizing: border-box;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 
 .keypad{
-    height: 80vh;
-    width: 100vw;
+    height: calc(70vh - 5px);
+    width: calc(100vw - 10px);
     display: flex;
     justify-content: center;
     align-items: end;
     flex-wrap: wrap;
-    background-color: rgb(190, 102, 0);
+    background-color: black;
+    box-sizing: border-box;
 }
 
-.keypad > button{
+.number{
+    border: 2px solid black;
+    background-color: rgba(107, 107, 107, 0.5);
     width: 25%;
     height: 20%;
-    border-radius: 20px;
-    font-size: 10vh;
+    border-radius: 50px;
+    font-size: 8vh;
+    color: white;
     cursor: pointer;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    box-sizing: border-box;
+}
+
+.operator, .equals{
+    border: 2px solid black;
+    background-color: rgb(243, 198, 0);
+    width: 25%;
+    height: 20%;
+    border-radius: 50px;
+    font-size: 8vh;
+    color: white;
+    cursor: pointer;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    box-sizing: border-box;
+}
+
+.del, .clear{
+    border: 2px solid black;
+    background-color: rgb(0, 195, 255);
+    width: 25%;
+    height: 20%;
+    border-radius: 50px;
+    font-size: 8vh;
+    color: white;
+    cursor: pointer;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    box-sizing: border-box;
 }
 
 #clear{
     width: 50%;
     height: 20%;
-    border-radius: 20px;
-    font-size: 10vh;
+    border-radius: 50px;
+    font-size: 8vh;
     cursor: pointer;
 }
 
 #zero{
     width: 50%;
     height: 20%;
-    border-radius: 20px;
-    font-size: 10vh;
+    border-radius: 50px;
+    font-size: 8vh;
     cursor: pointer;
 }
 
