@@ -1,0 +1,1 @@
+This is the third project on odin, i.e, A Calculator which has been made with the help of DOM manipulation and flexbox
